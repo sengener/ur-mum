@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import ffmpeg
 import asyncio
+import random
 
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
@@ -69,8 +70,6 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    
-    
     if isMod(message) == 1 and message.content == "YM1" and properties("onVCjoinAudio") == "0":
         editProperties("onVCjoinAudio", 1)
         await message.channel.send("onVCjoinAudio set to " + TransEnable(properties("onVCjoinAudio")))
@@ -92,7 +91,6 @@ async def on_message(message):
     else:
         return
 
-
 @client.event
 async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1":
@@ -104,7 +102,6 @@ async def on_voice_state_update(member, before, after):
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        
         elif member.id in cats:
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundTwo.mp3')
@@ -112,7 +109,6 @@ async def on_voice_state_update(member, before, after):
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        
         elif member.id in nezalozeni:
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
@@ -121,9 +117,15 @@ async def on_voice_state_update(member, before, after):
                 await asyncio.sleep(5)
             await voice_client.disconnect()
         elif member.id == jack:
-            voice_client = await voice_channel.connect()
-            audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFour.mp3')
-            voice_client.play(audio_source)
+            soundSelect = random.randint(0,1)
+            if soundSelect == 0:
+                voice_client = await voice_channel.connect()
+                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFour.mp3')
+                voice_client.play(audio_source)
+            elif soundSelect == 1:
+                voice_client = await voice_channel.connect()
+                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundSix.mp3')
+                voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
