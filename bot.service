@@ -1,0 +1,12 @@
+[Unit]
+Description=Discord trolling bot
+After=network.target
+
+[Service]
+User=rostislav
+WorkingDirectory=/home/rostislav/ur-mum/
+ExecStart=/usr/bin/python3 /home/rostislav/ur-mum/bot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
