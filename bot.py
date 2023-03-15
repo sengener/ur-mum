@@ -92,54 +92,34 @@ async def on_message(message):
         return
 
 @client.event
-async def on_voice_state_update(member, before, after):
-    if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1":
+def on_voice_state_update(member, before, after):
+    if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1": #checs if the bot is supposed to connect and play audio
         voice_channel = after.channel
-        if member.id in zalozeni: #based server members -------------------------------------------------------------------
+        
+        async def playSound(pathToSound): #play sound when called with path to sound parameter
             voice_client = await voice_channel.connect()
-            audio_source = discord.FFmpegPCMAudio('/home/sounds/soundOne.mp3')
+            audio_source = discord.FFmpegPCMAudio(pathToSound)
             voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
+
+        if member.id in zalozeni: #based server members -------------------------------------------------------------------
+            playSound('/home/sounds/soundOne.mp3')
         elif member.id == cats: #cat server members -------------------------------------------------------------------
             soundSelect = random.randint(0,1)
             if soundSelect == 0:
-                voice_client = await voice_channel.connect()
-                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundTwo.mp3')
-                voice_client.play(audio_source)
+                playSound('/home/sounds/soundTwo.mp3')
             elif soundSelect == 1:
-                voice_client = await voice_channel.connect()
-                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
-                voice_client.play(audio_source)
-            while voice_client.is_playing():
-                await asyncio.sleep(5)
-            await voice_client.disconnect()
+                playSound('/home/sounds/soundThree.mp3')
         elif member.id in nezalozeni: #unbased server members -------------------------------------------------------------------
-            voice_client = await voice_channel.connect()
-            audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
-            voice_client.play(audio_source)
-            while voice_client.is_playing():
-                await asyncio.sleep(5)
-            await voice_client.disconnect()
+            playSound('/home/sounds/soundThree.mp3')
         elif member.id == jack: #wierd server member -------------------------------------------------------------------
             soundSelect = random.randint(0,1)
             if soundSelect == 0:
-                voice_client = await voice_channel.connect()
-                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFour.mp3')
-                voice_client.play(audio_source)
+                playSound('/home/sounds/soundFour.mp3')
             elif soundSelect == 1:
-                voice_client = await voice_channel.connect()
-                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundSix.mp3')
-                voice_client.play(audio_source)
-            while voice_client.is_playing():
-                await asyncio.sleep(5)
-            await voice_client.disconnect()
+                playSound('/home/sounds/soundSix.mp3')
         elif member.id == neverheal: #retarded server member -------------------------------------------------------------------
-            voice_client = await voice_channel.connect()
-            audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFive.mp3')
-            voice_client.play(audio_source)
-            while voice_client.is_playing():
-                await asyncio.sleep(5)
-            await voice_client.disconnect()
+            playSound('/home/sounds/soundFive.mp3')
 client.run(TOKEN)
