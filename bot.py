@@ -48,6 +48,14 @@ def properties(settings):
             value = line.split(':')[1].strip()
             return value
         
+def ReadIDs(message, group, member):
+    filename = group + '.txt'
+    with open(filename, 'r') as f:
+        file_contents = f.read()
+        if message is not None and str(message.author.id) in file_contents:
+            return 1
+        elif member is not None and str(member.id) in file_contents:
+            return 1
 def editProperties(settings, NewVal):
     filename = 'bot_settings.txt'
     with open(filename, 'r') as f:
@@ -70,21 +78,21 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if isMod(message) == 1 and message.content == "YM1" and properties("onVCjoinAudio") == "0":
+    if ReadIDs(message, group="mods", member=None) == 1 and message.content == "YM1" and properties("onVCjoinAudio") == "0":
         editProperties("onVCjoinAudio", 1)
         await message.channel.send("onVCjoinAudio set to " + TransEnable(properties("onVCjoinAudio")))
         print("onVCjoinAudio set to " + properties("onVCjoinAudio"))
         return
-    elif isMod(message) == 1 and message.content == "YM1" and properties("onVCjoinAudio") == "1":
+    elif ReadIDs(message, group="mods", member=None) == 1 and message.content == "YM1" and properties("onVCjoinAudio") == "1":
         await message.channel.send("onVCjoinAudio is currently set to " + TransEnable(properties("onVCjoinAudio")))
         print("onVCjoinAudio is currently set to " + properties("onVCjoinAudio"))
         return
-    elif isMod(message) == 1 and message.content == "YM0" and properties("onVCjoinAudio") == "1":
+    elif ReadIDs(message, group="mods", member=None) == 1 and message.content == "YM0" and properties("onVCjoinAudio") == "1":
         editProperties("onVCjoinAudio", 0)
         await message.channel.send("onVCjoinAudio set to " + TransEnable(properties("onVCjoinAudio")))
         print("onVCjoinAudio set to " + properties("onVCjoinAudio"))
         return
-    elif isMod(message) == 1 and message.content == "YM0" and properties("onVCjoinAudio") == "0":
+    elif ReadIDs(message, group="mods", member=None) == 1 and message.content == "YM0" and properties("onVCjoinAudio") == "0":
         await message.channel.send("onVCjoinAudio is currently set to " + TransEnable(properties("onVCjoinAudio")))
         print("onVCjoinAudio is currently set to " + properties("onVCjoinAudio"))
         return
@@ -95,14 +103,14 @@ async def on_message(message):
 async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1":
         voice_channel = after.channel
-        if member.id in zalozeni: #based server members -------------------------------------------------------------------
+        if ReadIDs(member=member, group="zalozeni", message=None) == 1: #based server members ------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundOne.mp3')
             voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif member.id == cats: #cat server members -------------------------------------------------------------------
+        elif ReadIDs(member=member, group="cats", message=None) == 1: #cat server members -------------------------------------------------------------------
             soundSelect = random.randint(0,1)
             if soundSelect == 0:
                 voice_client = await voice_channel.connect()
@@ -115,14 +123,14 @@ async def on_voice_state_update(member, before, after):
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif member.id in nezalozeni: #unbased server members -------------------------------------------------------------------
+        elif ReadIDs(member=member, group="nezalozeni", message=None) == 1: #unbased server members -------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
             voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif member.id == jack: #wierd server member -------------------------------------------------------------------
+        elif ReadIDs(member=member, group="jack", message=None) == 1: #wierd server member -------------------------------------------------------------------
             soundSelect = random.randint(0,1)
             if soundSelect == 0:
                 voice_client = await voice_channel.connect()
@@ -135,7 +143,7 @@ async def on_voice_state_update(member, before, after):
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif member.id == neverheal: #retarded server member -------------------------------------------------------------------
+        elif ReadIDs(member=member, group="neverheal", message=None) == 1: #retarded server member -------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFive.mp3')
             voice_client.play(audio_source)
