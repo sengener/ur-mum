@@ -8,7 +8,7 @@ intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
 def GetToken():
-    filename = 'token.txt'
+    filename = '/home/bot-files/token.txt'
     with open(filename, 'r') as file:
         token = file.read()
         return token
@@ -103,28 +103,34 @@ async def on_message(message):
 async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1":
         voice_channel = after.channel
-        if ReadIDs(member=member, group="zalozeni", message=None) == 1:
+        if ReadIDs(member=member, group="zalozeni", message=None) == 1: #based server members ------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundOne.mp3')
             voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif ReadIDs(member=member, group="cats", message=None) == 1:
-            voice_client = await voice_channel.connect()
-            audio_source = discord.FFmpegPCMAudio('/home/sounds/soundTwo.mp3')
-            voice_client.play(audio_source)
+        elif ReadIDs(member=member, group="cats", message=None) == 1: #cat server members -------------------------------------------------------------------
+            soundSelect = random.randint(0,1)
+            if soundSelect == 0:
+                voice_client = await voice_channel.connect()
+                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundTwo.mp3')
+                voice_client.play(audio_source)
+            elif soundSelect == 1:
+                voice_client = await voice_channel.connect()
+                audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
+                voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif ReadIDs(member=member, group="nezalozeni", message=None) == 1:
+        elif ReadIDs(member=member, group="nezalozeni", message=None) == 1: #unbased server members -------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundThree.mp3')
             voice_client.play(audio_source)
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif ReadIDs(member=member, group="jack", message=None) == 1:
+        elif ReadIDs(member=member, group="jack", message=None) == 1: #wierd server member -------------------------------------------------------------------
             soundSelect = random.randint(0,1)
             if soundSelect == 0:
                 voice_client = await voice_channel.connect()
@@ -137,7 +143,7 @@ async def on_voice_state_update(member, before, after):
             while voice_client.is_playing():
                 await asyncio.sleep(5)
             await voice_client.disconnect()
-        elif ReadIDs(member=member, group="neverheal", message=None) == 1:
+        elif ReadIDs(member=member, group="neverheal", message=None) == 1: #retarded server member -------------------------------------------------------------------
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio('/home/sounds/soundFive.mp3')
             voice_client.play(audio_source)
