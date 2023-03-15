@@ -92,10 +92,10 @@ async def on_message(message):
         return
 
 @client.event
-def on_voice_state_update(member, before, after):
+async def on_voice_state_update(member, before, after):
     if before.channel is None and after.channel is not None and properties("onVCjoinAudio") == "1": #checs if the bot is supposed to connect and play audio
         voice_channel = after.channel
-        
+
         async def playSound(pathToSound): #play sound when called with path to sound parameter
             voice_client = await voice_channel.connect()
             audio_source = discord.FFmpegPCMAudio(pathToSound)
