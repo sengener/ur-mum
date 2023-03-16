@@ -49,7 +49,7 @@ def properties(settings):
             return value
         
 def ReadIDs(message, group, member):
-    filename = group + '.txt'
+    filename = "/home/bot-files/" + group + '.txt'
     with open(filename, 'r') as f:
         file_contents = f.read()
         if message is not None and str(message.author.id) in file_contents:
