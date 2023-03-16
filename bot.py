@@ -12,24 +12,7 @@ def GetToken():
     with open(filename, 'r') as file:
         token = file.read()
         return token
-
 TOKEN = GetToken()
-
-#kaili = 780737111182934066
-#rover = 507535631119810565
-#greedy = 409415460333813771
-#cat = 593391713515470848
-#catgirl = 829445670091096064
-#Edward_David_Andrew = 639477130358423558
-#reco = 403541560349687820
-#homie = 527265429027160074
-#jack = 348818807026089985
-#neverheal = 675892132434673675
-#
-#zalozeni = [kaili, rover, greedy, reco, homie]
-#nezalozeni = [Edward_David_Andrew]
-#cats = [cat, catgirl]
-#mods = [kaili, rover]
 
 def TransEnable(val):
     if val == "1":
