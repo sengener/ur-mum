@@ -51,10 +51,6 @@ def editProperties(settings, NewVal):
     with open(filename, 'w') as f:
         f.writelines(lines)
 
-def isMod(message):
-    if message.author.id in mods:
-        return 1
-
 @client.event
 async def on_ready():
     print('Logged in as {0.user}'.format(client))
